@@ -1,0 +1,18 @@
+%reset -f
+import numpy as np
+from matplotlib import pyplot as plt
+import pandas as pd
+pd.set_option('display.max_rows',10)
+pd.set_option('display.max_columns',500)
+import datetime
+
+Data = pd.read_csv('co2_mm_mlo.csv',header = [39]);
+Data['Date'] = pd.to_datetime(Data[['year', 'month']].assign(DAY=1));
+Data = Data.set_index('Date');
+Data
+
+ax = plt.subplots();
+ax = Data['average'].plot();
+ax = Data['average'].resample('A').mean().plot();
+ax.legend(['Monthly Mean','Annual Mean']);
+plt.ylabel('CO2 (ppm)');
